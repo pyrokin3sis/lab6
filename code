@@ -22,7 +22,7 @@ struct Company
 
 };
 
-void task10()
+void task_10()
 {
 	const int N = 3;
 	Company* company = new Company[N];
@@ -79,5 +79,5 @@ void task10()
 
 	int main()
 	{
-		task10();
+		task_10();
 	}
