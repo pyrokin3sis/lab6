@@ -1,0 +1,83 @@
+include <iostream>
+#include <fstream>
+#include <string>
+#include <cstdio>
+#pragma warning(disable : 4996)
+
+using namespace std;
+
+/* Вариант 10 - средний уровень
+Создать бинарный файл с информацией об работниках предприятия.
+Распечатать информацию о работниках женского пола без высшего образования, 
+которым пора на пенсию */
+
+struct Company
+{
+	char LastName[255];
+	int Age;
+	char Education[255];
+	char Post[255];
+	char Sex[255];
+
+
+};
+
+void task10()
+{
+	const int N = 3;
+	Company* company = new Company[N];
+	char path[] = "lab.bin";
+
+	for (int i = 0; i < N; i++)
+	{
+		cout << "\nInput the last name of employee : ";
+		cin.ignore(cin.rdbuf()->in_avail());
+		cin.getline(company[i].LastName, 255);
+
+		cout << "\nInput the age of employee: ";
+		cin.ignore(cin.rdbuf()->in_avail());
+		cin >> company[i].Age;
+
+		cout << "\nInput the education of employee: ";
+		cin.ignore(cin.rdbuf()->in_avail());
+		cin.getline(company[i].Education, 255);
+
+		cout << "\nInput the post of employee: ";
+		cin.ignore(cin.rdbuf()->in_avail());
+		cin.getline(company[i].Post, 255);
+
+		cout << "\nInput the sex of employee: ";
+		cin.ignore(cin.rdbuf()->in_avail());
+		cin.getline(company[i].Sex, 255);
+
+		cin.clear();
+	}
+	FILE* f_out, * f_in;
+	f_out = fopen(path, "wb");
+	fwrite(company, sizeof(Company), N, f_out);
+	fclose(f_out);
+
+	delete[] company;
+	company = nullptr;
+
+	cout << endl << endl << "Let's read from file:" << endl;
+	Company* restoredLab = new Company[N];
+	f_in = fopen(path, "rb");
+	fread(restoredLab, sizeof(Company), N, f_in);
+	fclose(f_in);
+	for (size_t i = 0; i < N; i++)
+	{
+		if (restoredLab[i].Age >= 60)
+		{
+			cout << restoredLab[i].LastName << "\t" << restoredLab[i].Age << "\t" << restoredLab[i].Education << "\t" << restoredLab[i].Post << "\t" << restoredLab[i].Sex << endl;
+		}
+	}
+
+
+}
+
+
+	int main()
+	{
+		task10();
+	}
